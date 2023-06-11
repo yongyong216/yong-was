@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.groupc'
-version = '0.0.1'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
