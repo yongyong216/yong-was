@@ -19,7 +19,7 @@ public class GetTop5FollowerResponseDto extends ResponseDto {
     private List<FollowerSummary> followerTop5List;
 
     public GetTop5FollowerResponseDto(List<GetTop5FollowerListResult> resultSet) {
-        super("SU", "Success");
+        super("SU", "success");
 
         List<FollowerSummary> followerTop5List = new ArrayList<>();
 

@@ -20,7 +20,7 @@ public class FollowingUserResponseDto extends ResponseDto {
 
     public FollowingUserResponseDto(List<GetFollowingListResultSet> getFollowingListResultSet) {
 
-        super("SU", "Success");
+        super("SU", "success");
 
         List<FollowingList> followingList = new ArrayList<>();
 
