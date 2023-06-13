@@ -31,7 +31,7 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     "C.write_datetime AS commentDatetime, " + 
     "C.user_nickname AS commentUserNickname, " +
     "C.user_profile_image_url AS commentUserProfileImageUrl, "+ 
-    "FROM Board B, Comment C " +
+    "FROM board B, comment C " +
     "Where B.board_number = C.board_number " +
     "GROUP BY B.board_number " +
     "ORDER BY C.write_datetime DESC; ",
@@ -53,7 +53,7 @@ public List<BoardCommentResultSet> getBoardCommentList();
 "U.profile_image_url AS writerProfileImageUrl, " +
 "count(DISTINCT C.comment_number) AS commentCount, " +
 "count(DISTINCT L.user_number) AS likeCount " +
-"FROM Board B, Comment C, Likey L, User U "  +
+"FROM board B, comment C, likey L, user U "  +
 "Where B.board_number= C.board_number, " +
 "AND B.user_number = U.user_number " +
 "AND B.board_number = L.board_number " +
@@ -75,7 +75,7 @@ public List<BoardCommentLikeyCountResultSet> getBoardCommentLikeyList();
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "count(L.user_number) AS likeCount " +
-"FROM Board B "+
+"FROM board B "+
 "LEFT JOIN (SELECT * FROM( " +
 "select image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
@@ -84,7 +84,7 @@ public List<BoardCommentLikeyCountResultSet> getBoardCommentLikeyList();
 "ON B.board_number = BF.board_number " +
 "LEFT JOIN User U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
 "LEFT JOIN likey L " +
 "ON B.board_number = L.board_number " +
@@ -106,10 +106,10 @@ public List<GetBoardListResult> getBoardList();
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "count(L.user_number) AS likeCount " +
-"FROM Board B " +
-"LEFT JOIN User U " +
+"FROM board B " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.user_number = C.board_number " +
 "LEFT JOIN likey L " +
 "ON B.user_number = L.board_number " +
@@ -134,10 +134,10 @@ public List<GetBoardListResult> getMyBoardList(@Param("user_number") int userNum
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "count(L.user_number) AS likeCount " +
-"FROM Board B "+
-"LEFT JOIN User U " +
+"FROM board B "+
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.user_number = C.board_number " +
 "LEFT JOIN likey L " +
 "ON B.user_number = L.board_number " +
@@ -161,10 +161,10 @@ public List<GetBoardListResult> getBoardListTop5();
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "count(L.user_number) AS likeCount " +
-"FROM Board B "+
-"LEFT JOIN User U " +
+"FROM board B "+
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.user_number = C.board_number " +
 "LEFT JOIN likey L " +
 "ON B.user_number = L.board_number " +
@@ -178,7 +178,7 @@ public List<GetBoardListResult> getBoardFirstView();
 @Query(value=
 "Select " +
 "I.image_url AS boardFirstImageUrl " +
-"From Board B, Image_Url I " +
+"From board B, image_Url I " +
 "Where B.board_number = I.board_number " +
 "AND B.board_number = :board_number " +
 "ORDER BY I.image_number Asc " +
@@ -217,18 +217,18 @@ public List<LikeyResultSet> getLikeList();
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " +
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM " +
 "(select image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Likey L " +
+"LEFT JOIN likey L " +
 "ON B.board_number = L.board_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
 "LEFT JOIN ( " +
 "Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
@@ -236,7 +236,7 @@ public List<LikeyResultSet> getLikeList();
 "ON B.board_number = L.board_number " +
 "GROUP BY B.board_number) AS LC " +
 "ON LC.board_number = B.board_number " +
-"WHERE L.user_number =:user_number " +
+"WHERE L.user_number =U.user_number " +
 "GROUP BY B.board_number, BF.image_url " +
 "ORDER BY B.write_datetime DESC; ",
 nativeQuery = true
@@ -255,21 +255,21 @@ public List<GetBoardListResult> getLikeBoardList(@Param("user_number") int userN
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " + 
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM( " +
 "select image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
-"LEFT JOIN Likey L " +
+"LEFT JOIN likey L " +
 "ON B.board_number = L.board_number " +
 "LEFT JOIN ( " +
-"Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
+"Select B.board_number,count(L.user_number) AS likeCount FROM board B " +
 "LEFT JOIN likey L " +
 "ON B.board_number = L.board_number " +
 "GROUP BY B.board_number) AS LC " +
@@ -296,18 +296,18 @@ value =
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " + 
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM( " +
 "select image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
-"LEFT JOIN Likey L " +
+"LEFT JOIN likey L " +
 "ON B.board_number = L.board_number " +
 "LEFT JOIN ( " +
 "Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
@@ -335,18 +335,18 @@ public List<GetBoardListResult> getSearchListByWordAndWeather(@Param("search_wor
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " +
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM( " +
 "select image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
-"LEFT JOIN Likey L " +
+"LEFT JOIN likey L " +
 "ON B.board_number = L.board_number " +
 "LEFT JOIN ( " +
 "Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
@@ -374,18 +374,18 @@ public List<GetBoardListResult> getSearchListByWordAndTemperatures(@Param("searc
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " +
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM( " +
 "select image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
-"LEFT JOIN Likey L " +
+"LEFT JOIN likey L " +
 "ON B.board_number = L.board_number " +
 "LEFT JOIN ( " +
 "Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
@@ -417,16 +417,16 @@ public List<GetBoardListResult> getSearchListByWordAndAll(@Param("search_word") 
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " +
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM( " +
 "SELECT image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
 "LEFT JOIN ( " +
 "Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
@@ -461,16 +461,16 @@ value=
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " +
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM( " +
 "SELECT image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
 "LEFT JOIN ( " +
 "Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
@@ -506,16 +506,16 @@ public List<GetBoardListResult> getSearchHashtagByWordAndWeather(@Param("search_
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " +
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM( " +
 "SELECT image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
 "LEFT JOIN ( " +
 "Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
@@ -550,16 +550,16 @@ public List<GetBoardListResult> getSearchHashtagByWordAndTemperatures(@Param("se
 "U.profile_image_url AS boardWriterProfileImageUrl, " +
 "count(C.comment_number) AS commentCount, " +
 "LC.likeCount AS likeCount " +
-"FROM Board B " +
+"FROM board B " +
 "LEFT JOIN (SELECT * FROM( " +
 "SELECT image_number, image_url, board_number, " +
 "ROW_NUMBER() OVER (PARTITION BY board_number) " +
 "AS N FROM image_url) AS T " +
 "WHERE T.N=1) AS BF " +
 "ON B.board_number = BF.board_number " +
-"LEFT JOIN User U " +
+"LEFT JOIN user U " +
 "ON B.user_number = U.user_number " +
-"LEFT JOIN Comment C " +
+"LEFT JOIN comment C " +
 "ON B.board_number = C.board_number " +
 "LEFT JOIN ( " +
 "Select B.board_number,count(L.user_number) AS likeCount FROM Board B " +
@@ -586,8 +586,4 @@ public List<GetBoardListResult> getSearchHashtagByWordAndAll(@Param("search_word
                                                                  @Param("weather") String weather,
                                                                  @Param("minTemperature") Integer minTemperature,
                                                                  @Param("maxTemperature") Integer maxTemperature);
-
-
-
-
 }
