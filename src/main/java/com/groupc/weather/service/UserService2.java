@@ -2,6 +2,7 @@ package com.groupc.weather.service;
 
 import org.springframework.http.ResponseEntity;
 
+import com.groupc.weather.common.model.AuthenticationObject;
 import com.groupc.weather.dto.ResponseDto;
 import com.groupc.weather.dto.request.follow.DeleteFollowRequestDto;
 import com.groupc.weather.dto.request.follow.FollowRequestDto;
@@ -45,4 +46,6 @@ public interface UserService2 {
     public ResponseEntity<? super FollowerUserResponseDto> getFollowerUser(Integer followerNumber);
 
     public ResponseEntity<? super FollowingUserResponseDto> getFollowingUser(Integer followingNumber);
+
+    public ResponseEntity<ResponseDto> logOut(AuthenticationObject authenticationObject );
 }

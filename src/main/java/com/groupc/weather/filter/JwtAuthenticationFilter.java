@@ -22,6 +22,7 @@ import com.groupc.weather.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
+
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -29,14 +30,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
     private final UserService userService;
 
-   
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         try {
-
+            
             String jwt = parseToken(request);
 
             boolean hasJwt = jwt != null;
