@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.groupc.weather.filter.JwtAuthenticationFilter;
 
-class FailedAuthenticationEntiryPoint implements AuthenticationEntryPoint {
+class FailedAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -56,7 +56,7 @@ public class WebSecurityConfig {
             //.antMatchers(HttpMethod.GET, "/api/v2/photoBoard/**").permitAll()
             //.antMatchers("/api/v2/photoBoard/view/**","/api/v2/manager/sign-in","/api/v2/manager/sign-up").permitAll()
             .anyRequest().authenticated().and()
-            .exceptionHandling().authenticationEntryPoint(new FailedAuthenticationEntiryPoint());
+            .exceptionHandling().authenticationEntryPoint(new FailedAuthenticationEntryPoint());
 
         httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

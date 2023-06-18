@@ -107,7 +107,7 @@ public class UserServiceImplement2 implements UserService2 {
 
     // 유저 로그인
     @Override
-    public ResponseEntity<? super LoginUserResponseDto> LoginUser(LoginUserRequestDto dto) {
+    public ResponseEntity<? super LoginUserResponseDto> loginUser(LoginUserRequestDto dto) {
 
         LoginUserResponseDto body = null;
 
@@ -157,7 +157,7 @@ public class UserServiceImplement2 implements UserService2 {
 
     // 유저 이메일 찾기
     @Override
-    public ResponseEntity<? super FindByEmailResponseDto> FindByEmail(FindByEmailRequestDto dto) {
+    public ResponseEntity<? super FindByEmailResponseDto> findByEmail(FindByEmailRequestDto dto) {
 
         FindByEmailResponseDto body = null;
 
@@ -189,7 +189,7 @@ public class UserServiceImplement2 implements UserService2 {
 
     // 유저 비밀번호 찾기 (encoding 복호화 기능)
     @Override
-    public ResponseEntity<? super FindByPasswordResponseDto> FindByPassword(FindByPasswordRequestDto dto) {
+    public ResponseEntity<? super FindByPasswordResponseDto> findByPassword(FindByPasswordRequestDto dto) {
 
         FindByPasswordResponseDto body = null;
 

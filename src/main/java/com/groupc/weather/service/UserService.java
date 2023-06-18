@@ -23,11 +23,11 @@ import com.groupc.weather.dto.response.user.LoginUserResponseDto;
 public interface UserService {
     public ResponseEntity<ResponseDto> postUser(PostUserRequestDto dto);
 
-    public ResponseEntity<? super LoginUserResponseDto> LoginUser(LoginUserRequestDto dto);
+    public ResponseEntity<? super LoginUserResponseDto> loginUser(LoginUserRequestDto dto);
 
-    public ResponseEntity<? super FindByEmailResponseDto> FindByEmail(FindByEmailRequestDto dto);
+    public ResponseEntity<? super FindByEmailResponseDto> findByEmail(FindByEmailRequestDto dto);
 
-    public ResponseEntity<? super FindByPasswordResponseDto> FindByPassword(FindByPasswordRequestDto dto);
+    public ResponseEntity<? super FindByPasswordResponseDto> findByPassword(FindByPasswordRequestDto dto);
 
     public ResponseEntity<ResponseDto> patchUser(PatchUserRequestDto dto);
 
