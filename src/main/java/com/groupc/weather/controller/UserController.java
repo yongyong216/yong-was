@@ -57,7 +57,7 @@ public class UserController {
     @PostMapping("sign-in")
     public ResponseEntity<? super LoginUserResponseDto> LoginUser(
             @Valid @RequestBody LoginUserRequestDto requestBody) {
-        ResponseEntity<? super LoginUserResponseDto> response = userService.LoginUser(requestBody);
+        ResponseEntity<? super LoginUserResponseDto> response = userService.loginUser(requestBody);
         return response;
     }
 
@@ -65,7 +65,7 @@ public class UserController {
     @PostMapping("find-email")
     public ResponseEntity<? super FindByEmailResponseDto> FindByemail(
             @Valid @RequestBody FindByEmailRequestDto requestBody) {
-        ResponseEntity<? super FindByEmailResponseDto> response = userService.FindByEmail(requestBody);
+        ResponseEntity<? super FindByEmailResponseDto> response = userService.findByEmail(requestBody);
         return response;
     }
 
@@ -73,7 +73,7 @@ public class UserController {
     @PostMapping("find-password")
     public ResponseEntity<? super FindByPasswordResponseDto> FindByPassword(
             @Valid @RequestBody FindByPasswordRequestDto requestBody) {
-        ResponseEntity<? super FindByPasswordResponseDto> response = userService.FindByPassword(requestBody);
+        ResponseEntity<? super FindByPasswordResponseDto> response = userService.findByPassword(requestBody);
         return response;
     }
 
